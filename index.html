@@ -1,139 +1,223 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Be My Valentine ❤️</title>
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-      overflow: hidden;
-      font-family: 'Poppins', sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-    }
+<meta charset="UTF-8">
+<title>For Arusi 💖</title>
 
-    .container {
-      text-align: center;
-      z-index: 2;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #ffd6e8, #fff1f7);
+  overflow: hidden;
+  text-align: center;
+}
 
-    h1 {
-      font-size: 2.8rem;
-      margin-bottom: 30px;
-      text-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    }
+.page {
+  display: none;
+  height: 100vh;
+  padding: 40px 20px;
+}
 
-    button {
-      padding: 15px 35px;
-      font-size: 1.1rem;
-      border: none;
-      border-radius: 40px;
-      cursor: pointer;
-      margin: 10px;
-      transition: 0.3s ease;
-    }
+.page.active {
+  display: block;
+}
 
-    #yes {
-      background: #ff4d6d;
-      color: white;
-      box-shadow: 0 10px 20px rgba(255,77,109,0.4);
-    }
+h1, h2 {
+  color: #ff2e63;
+}
 
-    #yes:hover {
-      transform: scale(1.1);
-    }
+button {
+  padding: 14px 28px;
+  margin: 10px;
+  border: none;
+  border-radius: 30px;
+  font-size: 1rem;
+  cursor: pointer;
+  background: #ff4d6d;
+  color: white;
+  transition: 0.3s;
+}
 
-    #no {
-      background: white;
-      color: #ff4d6d;
-      position: absolute;
-    }
+button:hover {
+  transform: scale(1.05);
+}
 
-    .message {
-      display: none;
-      font-size: 2rem;
-      animation: fadeIn 1s ease forwards;
-    }
+.photo {
+  width: 200px;
+  border-radius: 25px;
+  margin: 15px;
+  box-shadow: 0 12px 25px rgba(0,0,0,0.25);
+}
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.8); }
-      to { opacity: 1; transform: scale(1); }
-    }
+/* Floating hearts & tulips */
+.float {
+  position: absolute;
+  animation: floatUp 6s linear infinite;
+}
 
-    /* Floating hearts */
-    .heart {
-      position: absolute;
-      color: rgba(255,255,255,0.8);
-      font-size: 20px;
-      animation: floatUp 6s linear infinite;
-    }
+@keyframes floatUp {
+  from { transform: translateY(100vh); opacity: 1; }
+  to { transform: translateY(-10vh); opacity: 0; }
+}
 
-    @keyframes floatUp {
-      from {
-        transform: translateY(100vh) scale(1);
-        opacity: 1;
-      }
-      to {
-        transform: translateY(-10vh) scale(1.5);
-        opacity: 0;
-      }
-    }
-  </style>
+/* Dodging NO button */
+#noLove {
+  position: absolute;
+}
+
+/* Secret button */
+#secretBtn {
+  background: #ff85a2;
+  margin-top: 25px;
+  animation: pulse 1.5s infinite;
+  display: none;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+#secretMsg {
+  display: none;
+  margin-top: 25px;
+  font-size: 1.4rem;
+  color: #ff2e63;
+  animation: fadeIn 2s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+</style>
 </head>
+
 <body>
 
-  <div class="container">
-    <h1 id="question">Hey Arusi 💖<br>Will you be my Valentine?</h1>
-    <button id="yes">Yes 💖</button>
-    <button id="no">No 🙃</button>
+<!-- PAGE 1 -->
+<div class="page active" id="p1">
+  <!-- CHANGE PHOTO HERE -->
+  <img src="arusi1.jpg" class="photo">
 
-    <div class="message" id="message">
-      YAY!!! 💕💍<br>
-      I’m the luckiest person ever 😭❤️
-    </div>
-  </div>
+  <h1>Hey Arusi 💖</h1>
+  <h2>Will you be my Valentine?</h2>
+  <button onclick="nextPage(2)">Yes 💘</button>
+</div>
 
-  <script>
-    const noBtn = document.getElementById("no");
-    const yesBtn = document.getElementById("yes");
-    const question = document.getElementById("question");
-    const message = document.getElementById("message");
+<!-- PAGE 2 -->
+<div class="page" id="p2">
+  <h2>What do I like the most? 🤔</h2>
+  <button onclick="wrong()">Momos</button>
+  <button onclick="wrong()">Pizza</button>
+  <button onclick="right('Yeyyy I love you 💕',3)">Pulau</button>
+</div>
 
-    noBtn.addEventListener("mouseover", () => {
-      const x = Math.random() * (window.innerWidth - 100);
-      const y = Math.random() * (window.innerHeight - 50);
-      noBtn.style.left = x + "px";
-      noBtn.style.top = y + "px";
-    });
+<!-- PAGE 3 -->
+<div class="page" id="p3">
+  <h2>Do you love me? 🥺</h2>
+  <button onclick="right('I knew it 😭💖',4)">Yes 💞</button>
+  <button id="noLove">No 🙃</button>
+</div>
 
-    yesBtn.addEventListener("click", () => {
-      question.style.display = "none";
-      yesBtn.style.display = "none";
-      noBtn.style.display = "none";
-      message.style.display = "block";
-    });
+<!-- PAGE 4 -->
+<div class="page" id="p4">
+  <!-- CHANGE PHOTO HERE -->
+  <img src="arusi2.jpg" class="photo">
 
-    // Create floating hearts
-    function createHeart() {
-      const heart = document.createElement("div");
-      heart.classList.add("heart");
-      heart.innerHTML = "❤️";
-      heart.style.left = Math.random() * 100 + "vw";
-      heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
-      heart.style.fontSize = (Math.random() * 20 + 15) + "px";
-      document.body.appendChild(heart);
+  <h2>My birth year? 🎂</h2>
+  <button onclick="sad()">2006</button>
+  <button onclick="sad()">2009</button>
+  <button onclick="sad()">2005</button>
+  <button onclick="right('You know me so well 🥹❤️',5)">2007</button>
+</div>
 
-      setTimeout(() => {
-        heart.remove();
-      }, 6000);
-    }
+<!-- FINAL PAGE -->
+<div class="page" id="p5">
+  <!-- CHANGE PHOTO HERE -->
+  <img src="arusi3.jpg" class="photo">
 
-    setInterval(createHeart, 300);
-  </script>
+  <h1 id="finalText"></h1>
+
+  <button id="secretBtn">Tap for a secret 💌</button>
+
+  <h2 id="secretMsg"></h2>
+</div>
+
+<script>
+function nextPage(n) {
+  document.querySelector('.active').classList.remove('active');
+  document.getElementById('p' + n).classList.add('active');
+}
+
+function wrong() {
+  alert("Not talking to you 😤");
+}
+
+function sad() {
+  alert("Aww… wrong 😔");
+}
+
+function right(msg, next) {
+  alert(msg);
+  nextPage(next);
+}
+
+/* Dodge NO button */
+const noBtn = document.getElementById("noLove");
+if (noBtn) {
+  noBtn.addEventListener("mouseover", () => {
+    noBtn.style.left = Math.random() * 70 + "vw";
+    noBtn.style.top = Math.random() * 70 + "vh";
+  });
+}
+
+/* Typing text + secret unlock */
+const text = "I love you so so so much Arusi 💖🌷";
+let i = 0;
+
+function typeText() {
+  if (i < text.length) {
+    document.getElementById("finalText").innerHTML += text.charAt(i);
+    i++;
+    setTimeout(typeText, 100);
+  } else {
+    document.getElementById("secretBtn").style.display = "inline-block";
+  }
+}
+
+document.getElementById("p5").addEventListener("click", typeText);
+
+document.getElementById("secretBtn").addEventListener("click", () => {
+  document.getElementById("secretMsg").style.display = "block";
+  document.getElementById("secretMsg").innerHTML =
+    "Arusi 💗<br>You are the cutest and most beautiful person ever 🌷<br>You make my world brighter every day ✨<br>I love you forever 🫶💞";
+});
+
+/* Floating hearts */
+setInterval(() => {
+  const h = document.createElement("div");
+  h.className = "float";
+  h.innerHTML = "💖";
+  h.style.left = Math.random() * 100 + "vw";
+  h.style.fontSize = Math.random() * 20 + 15 + "px";
+  document.body.appendChild(h);
+  setTimeout(() => h.remove(), 6000);
+}, 300);
+
+/* Floating tulips */
+setInterval(() => {
+  const t = document.createElement("div");
+  t.className = "float";
+  t.innerHTML = "🌷";
+  t.style.left = Math.random() * 100 + "vw";
+  t.style.fontSize = "24px";
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 7000);
+}, 700);
+</script>
 
 </body>
 </html>
